@@ -2,18 +2,19 @@ import React from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { GET_PENDING_REQUESTS, RESPOND_TO_ACCESS_REQUEST } from '../../lib/graphql-queries';
 import { Shield, Check, X, Clock, Calendar, User } from 'lucide-react';
+import dayjs from 'dayjs';
+
+const formatDate = (dateString) => {
+  const parsed = dayjs(dateString);
+  return parsed.isValid() ? parsed.format('MMM D, YYYY') : 'Unknown date';
+};
 
 export const AccessControlPage = () => {
   const { data, loading, error, refetch } = useQuery(GET_PENDING_REQUESTS);
 
   const [respondToAccessRequest, { loading: responding }] = useMutation(RESPOND_TO_ACCESS_REQUEST, {
-    onCompleted: () => {
-      refetch();
-    },
-    onError: (err) => {
-      console.error('Failed to respond to access request:', err);
-      // You might want to show a notification here
-    }
+    onCompleted: () => refetch(),
+    onError: (err) => console.error('Failed to respond to access request:', err)
   });
 
   const handleResponse = async (requestId, approved) => {
@@ -46,7 +47,6 @@ export const AccessControlPage = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Access Control</h1>
         <p className="text-gray-600">
@@ -75,20 +75,22 @@ export const AccessControlPage = () => {
                     </div>
                     <div className="flex-1">
                       <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                        Dr. {request.doctor.user.name}
+                        Dr. {request.doctor?.user?.name || 'Unknown'}
                       </h3>
-                      <p className="text-sm text-gray-600 mb-2">{request.doctor.user.email}</p>
+                      <p className="text-sm text-gray-600 mb-2">
+                        {request.doctor?.user?.email || 'Unknown email'}
+                      </p>
 
                       <div className="bg-gray-50 rounded-lg p-3 mb-3">
                         <h4 className="text-sm font-medium text-gray-900 mb-1">
                           Purpose of Access Request:
                         </h4>
-                        <p className="text-sm text-gray-700">{request.reason}</p>
+                        <p className="text-sm text-gray-700">{request.reason || 'No reason provided'}</p>
                       </div>
 
                       <div className="flex items-center text-sm text-gray-500">
                         <Calendar className="h-4 w-4 mr-1" />
-                        Requested on {new Date(request.requestedAt).toLocaleDateString()}
+                        Requested on {formatDate(request.requestedAt)}
                       </div>
                     </div>
                   </div>
@@ -126,7 +128,7 @@ export const AccessControlPage = () => {
         )}
       </div>
 
-      {/* Security Information */}
+      {/* Security Info */}
       <div className="bg-blue-50 rounded-xl border border-blue-200 p-6">
         <div className="flex items-start space-x-3">
           <Shield className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
