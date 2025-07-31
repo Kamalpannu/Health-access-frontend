@@ -23,8 +23,6 @@ export const AuthProvider = ({ children }) => {
   const loading = userLoading;
 
   useEffect(() => {
-    console.log('Auth state:', { userData, userError });
-    
     if (userData?.me) {
       setIsAuthenticated(true);
       setUser(userData.me);
@@ -33,17 +31,6 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
     }
   }, [userData, userError]);
-
-  // Debug logging
-  useEffect(() => {
-    console.log('Auth Context State:', {
-      isAuthenticated,
-      user,
-      loading,
-      hasRole: user?.role,
-      userData: userData?.me?.id
-    });
-  }, [isAuthenticated, user, loading, userData]);
 
   const refetchUser = async () => {
     try {

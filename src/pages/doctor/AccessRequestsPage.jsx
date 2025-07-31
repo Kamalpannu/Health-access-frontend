@@ -53,7 +53,6 @@ export const AccessRequestsPage = () => {
     );
 
   const requests = data?.accessRequests || [];
-  console.log('Fetched patient requests:', data?.accessRequests);
   const validRequests = requests.filter(req => req.patient?.user);
   const pendingRequests = validRequests.filter(req => req.status === 'PENDING');
   const completedRequests = validRequests.filter(req => req.status !== 'PENDING');
