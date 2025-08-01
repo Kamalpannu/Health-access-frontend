@@ -1,12 +1,32 @@
-# React + Vite
+# MediLedger Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React-based client for the MediLedger medical access platform.  
+Supports OAuth2 login (Google), role-aware dashboards for doctors and patients, and communicates via Apollo GraphQL to the backend.
 
-Currently, two official plugins are available:
+## 🚀 Project Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Patients can view their own records and approve access. Doctors can request access and view approved patients. Login is handled via Google OAuth2.
 
-## Expanding the ESLint configuration
+## 🧰 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- React
+- Apollo Client (GraphQL)
+- OAuth2 login via backend (Google)
+- Tailwind CSS (for styling)
+- React Router (optional for routing)
+
+## 🔐 Environment Variables
+
+Create a `.env` at project root:
+
+```env
+REACT_APP_API_URL=http://localhost:4000/graphql
+REACT_APP_LOGIN_REDIRECT=http://localhost:4000/auth/google
+
+⚙️ Setup
+git clone https://github.com/Kamalpannu/Health-access-frontend
+cd mediledger-frontend
+npm install
+
+🚀 Running Locally
+npm run dev
