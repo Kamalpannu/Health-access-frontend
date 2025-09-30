@@ -19,6 +19,7 @@ export const IS_AUTHENTICATED = gql`
     }
   }
 `;
+
 export const CHECK_ACCESS_QUERY = gql`
   query CanCreateRecord($patientId: ID!) {
     canCreateRecord(patientId: $patientId)
@@ -77,9 +78,11 @@ export const GET_PATIENT_RECORDS = gql`
     patientRecords(patientId: $patientId) {
       id
       title
-      content
+      cid   # ✅ replaced content with cid
       diagnosis
       treatment
+      medications
+      notes
       createdAt
       doctor {
         user {
@@ -95,9 +98,11 @@ export const GET_MY_RECORDS = gql`
     myRecords {
       id
       title
-      content
+      cid   # ✅ replaced content with cid
       diagnosis
       treatment
+      medications
+      notes
       createdAt
       doctor {
         user {
@@ -140,9 +145,11 @@ export const CREATE_MEDICAL_RECORD = gql`
     createRecord(input: $input) {
       id
       title
-      content
+      cid   # ✅ backend stores cid, not content
       diagnosis
       treatment
+      medications
+      notes
       patientId
     }
   }
