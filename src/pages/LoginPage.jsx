@@ -24,7 +24,7 @@ export const LoginPage = () => {
     return <Navigate to="/dashboard" replace />;
   }
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin =() => {
     const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
     window.location.href = `${backendUrl}/auth/google`;
   };
