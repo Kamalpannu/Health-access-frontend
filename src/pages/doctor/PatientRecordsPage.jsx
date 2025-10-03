@@ -103,7 +103,6 @@ export const PatientRecordsPage = () => {
     e.preventDefault();
     if (!patientId) return;
 
-    // Create record in backend first
     const result = await createMedicalRecord({
       variables: {
         input: {
@@ -117,7 +116,7 @@ export const PatientRecordsPage = () => {
     });
 
     if (result && result.data) {
-      const ipfsHash = result.data.createMedicalRecord.cid; // Assume backend returns CID
+      const ipfsHash = result.data.createMedicalRecord.cid;
       const blockchainResult = await createRecordOnBlockchain(
         patientId,
         ipfsHash
@@ -170,7 +169,7 @@ export const PatientRecordsPage = () => {
           </div>
         </div>
 
-        {canCreateRecord && (
+        {canCreateRecord && records.length === 0 && (
           <button
             onClick={() => setShowCreateForm(true)}
             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -290,59 +289,74 @@ export const PatientRecordsPage = () => {
       {/* Records List */}
       <div className="space-y-4">
         {records.length > 0 ? (
-          records.map((record) => (
-            <div
-              key={record.id}
-              className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-start space-x-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <FileText className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                      {record.title}
-                    </h3>
-                    <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
-                      <div className="flex items-center">
-                        <User className="h-4 w-4 mr-1" />
-                        Dr. {record.doctor?.user?.name || "Unknown"}
-                      </div>
-                      <div className="flex items-center">
-                        <Calendar className="h-4 w-4 mr-1" />
-                        {formatDate(record.createdAt)}
-                      </div>
+          <>
+            {records.map((record) => (
+              <div
+                key={record.id}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-start space-x-4">
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                      <FileText className="h-5 w-5 text-blue-600" />
                     </div>
-                    {record.content && (
-                      <p className="text-gray-700 mb-3">{record.content}</p>
+                    <div className="flex-1">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                        {record.title}
+                      </h3>
+                      <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+                        <div className="flex items-center">
+                          <User className="h-4 w-4 mr-1" />
+                          Dr. {record.doctor?.user?.name || "Unknown"}
+                        </div>
+                        <div className="flex items-center">
+                          <Calendar className="h-4 w-4 mr-1" />
+                          {formatDate(record.createdAt)}
+                        </div>
+                      </div>
+                      {record.content && (
+                        <p className="text-gray-700 mb-3">{record.content}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                {(record.diagnosis || record.treatment) && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-200">
+                    {record.diagnosis && (
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-900 mb-1">
+                          Diagnosis
+                        </h4>
+                        <p className="text-sm text-gray-700">{record.diagnosis}</p>
+                      </div>
+                    )}
+                    {record.treatment && (
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-900 mb-1">
+                          Treatment
+                        </h4>
+                        <p className="text-sm text-gray-700">{record.treatment}</p>
+                      </div>
                     )}
                   </div>
-                </div>
+                )}
               </div>
+            ))}
 
-              {(record.diagnosis || record.treatment) && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-gray-200">
-                  {record.diagnosis && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-900 mb-1">
-                        Diagnosis
-                      </h4>
-                      <p className="text-sm text-gray-700">{record.diagnosis}</p>
-                    </div>
-                  )}
-                  {record.treatment && (
-                    <div>
-                      <h4 className="text-sm font-medium text-gray-900 mb-1">
-                        Treatment
-                      </h4>
-                      <p className="text-sm text-gray-700">{record.treatment}</p>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          ))
+            {/* Add Another Record */}
+            {canCreateRecord && (
+              <div className="flex justify-end mt-4">
+                <button
+                  onClick={() => setShowCreateForm(true)}
+                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-black rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Another Record
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center py-12">
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
@@ -352,6 +366,8 @@ export const PatientRecordsPage = () => {
             <p className="text-gray-600 mb-4">
               Start by creating the first medical record for this patient
             </p>
+
+            {/* Add First Record */}
             {canCreateRecord && (
               <button
                 onClick={() => setShowCreateForm(true)}
