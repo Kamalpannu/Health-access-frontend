@@ -34,6 +34,7 @@ export const GET_PATIENTS = gql`
         name
         email
       }
+      ethereumAddress
       dateOfBirth
       phoneNumber
     }
@@ -48,6 +49,7 @@ export const GET_MY_PATIENTS = gql`
         name
         email
       }
+      ethereumAddress
       dateOfBirth
       phoneNumber
     }
@@ -64,6 +66,7 @@ export const GET_ACCESS_REQUESTS = gql`
           name
           email
         }
+        ethereumAddress
       }
       status
       createdAt
@@ -78,12 +81,15 @@ export const GET_PATIENT_RECORDS = gql`
     patientRecords(patientId: $patientId) {
       id
       title
-      cid   # ✅ replaced content with cid
+      cid  
       diagnosis
       treatment
       medications
       notes
       createdAt
+      patient {
+        ethereumAddress
+     }
       doctor {
         user {
           name
@@ -98,12 +104,15 @@ export const GET_MY_RECORDS = gql`
     myRecords {
       id
       title
-      cid   # ✅ replaced content with cid
+      cid  
       diagnosis
       treatment
       medications
       notes
       createdAt
+      patient {
+        ethereumAddress
+      }
       doctor {
         user {
           name
@@ -123,6 +132,9 @@ export const GET_PENDING_REQUESTS = gql`
           name
           email
         }
+      }
+      patient {
+        ethereumAddress
       }
       status
       createdAt
@@ -145,12 +157,15 @@ export const CREATE_MEDICAL_RECORD = gql`
     createRecord(input: $input) {
       id
       title
-      cid   # ✅ backend stores cid, not content
+      cid   
       diagnosis
       treatment
       medications
       notes
       patientId
+      patient {
+        ethereumAddress
+      }
     }
   }
 `;
