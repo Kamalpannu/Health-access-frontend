@@ -88,8 +88,12 @@ export const PatientRecordsPage = () => {
         HealthAccessABI,
         signer
       );
-
-      const tx = await contract.createRecord(patientId, cid);
+      const patient = data?.patientRecords?.[0]?.patient;
+      if (!patient?.ethereumAddress) {
+        alert("Patient does not have a connected Ethereum wallet!");
+        return { success: false };
+      }
+      const tx = await contract.createRecord(patient.ethereumAddress, cid);
       await tx.wait();
 
       return { success: true, txHash: tx.hash };
