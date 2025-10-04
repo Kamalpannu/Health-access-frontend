@@ -184,3 +184,11 @@ export const SET_USER_ROLE = gql`
     setUserRole(role: $role, data: $data)
   }
 `;
+export const UPDATE_ETHEREUM_ADDRESS = gql`
+  mutation UpdateEthereumAddress($ethereumAddress: String!) {
+    updateEthereumAddress(ethereumAddress: $ethereumAddress) {
+      id
+      ethereumAddress
+    }
+  }
+`;

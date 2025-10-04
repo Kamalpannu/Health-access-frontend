@@ -5,17 +5,15 @@ import {
   GET_MY_PATIENTS,
   GET_ACCESS_REQUESTS,
   GET_MY_RECORDS,
-  GET_PENDING_REQUESTS,
-  SET_USER_ROLE
+  GET_PENDING_REQUESTS
 } from "../lib/graphql-queries";
+import { UPDATE_ETHEREUM_ADDRESS } from "../lib/graphql-queries";
 import { Activity, Users, FileText, Shield, Clock, TrendingUp } from "lucide-react";
 
 export const DashboardPage = () => {
   const { user, isAuthenticated } = useAuth();
+  const [updateEthereumAddress] = useMutation(UPDATE_ETHEREUM_ADDRESS);
 
-  const [updateEthereumAddress] = useMutation(SET_USER_ROLE);
-
-  // Wallet connect function
   const connectWallet = async () => {
     try {
       if (!window.ethereum) {
@@ -32,8 +30,7 @@ export const DashboardPage = () => {
 
       await updateEthereumAddress({
         variables: {
-          role: "PATIENT",
-          data: { ethereumAddress }
+          ethereumAddress
         }
       });
 
@@ -44,7 +41,6 @@ export const DashboardPage = () => {
     }
   };
 
-  // Early return if not authenticated or no user
   if (!isAuthenticated || !user) {
     return null;
   }
