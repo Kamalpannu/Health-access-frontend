@@ -107,7 +107,7 @@ export const RoleSelectionPage = () => {
           <button
             onClick={handleRoleSelection}
             disabled={!selectedRole}
-            className="inline-flex items-center px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="inline-flex items-center px-8 py-3 bg-blue-600 text-black font-medium rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             Continue as {selectedRole ? roles.find(r => r.id === selectedRole)?.title : 'User'}
             <ArrowRight className="h-5 w-5 ml-2" />

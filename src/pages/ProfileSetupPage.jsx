@@ -364,7 +364,7 @@ export const ProfileSetupPage = () => {
                   (selectedRole === 'DOCTOR' && (!formData.specialization || !formData.licenseNumber))
                 }
                 className={`w-full flex items-center justify-center px-6 py-3 font-medium rounded-lg hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors ${
-                  roleColor === 'green' ? 'bg-green-600 text-white' : 'bg-blue-600 text-white'
+                  roleColor === 'green' ? 'bg-green-600 text-black' : 'bg-blue-600 text-black'
                 }`}
               >
                 <Save className="h-5 w-5 mr-2" />
