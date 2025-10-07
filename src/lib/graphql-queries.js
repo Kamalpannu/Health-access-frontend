@@ -81,7 +81,9 @@ export const GET_PATIENT_RECORDS = gql`
     patientRecords(patientId: $patientId) {
       id
       title
-      cid  
+      cid
+      blockchainTx
+      syncStatus
       diagnosis
       treatment
       medications
@@ -89,7 +91,7 @@ export const GET_PATIENT_RECORDS = gql`
       createdAt
       patient {
         ethereumAddress
-     }
+      }
       doctor {
         user {
           name
@@ -104,7 +106,9 @@ export const GET_MY_RECORDS = gql`
     myRecords {
       id
       title
-      cid  
+      cid
+      blockchainTx
+      syncStatus
       diagnosis
       treatment
       medications
@@ -157,7 +161,9 @@ export const CREATE_MEDICAL_RECORD = gql`
     createRecord(input: $input) {
       id
       title
-      cid   
+      cid
+      blockchainTx
+      syncStatus
       diagnosis
       treatment
       medications
@@ -184,6 +190,7 @@ export const SET_USER_ROLE = gql`
     setUserRole(role: $role, data: $data)
   }
 `;
+
 export const UPDATE_ETHEREUM_ADDRESS = gql`
   mutation UpdateEthereumAddress($ethereumAddress: String!) {
     updateEthereumAddress(ethereumAddress: $ethereumAddress) {
