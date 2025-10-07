@@ -148,7 +148,7 @@ export const DashboardPage = () => {
       {/* Connect Wallet button for patients */}
       {user.role === "PATIENT" && !user.ethereumAddress && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          <h3 className="text-lg font-semibold text-black-900 mb-4">
             Connect Your Wallet
           </h3>
           <button
